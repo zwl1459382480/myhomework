@@ -9,23 +9,13 @@ import java.util.Map;
 import static com.neu.app.App.menu;
 import static com.neu.util.Read.getIn;
 
-public class UserView {
-
-    private Map<String,Object> map ;
-
-    public Map<String, Object> getMap() {
-        return map;
-    }
-
-    public void setMap(Map<String, Object> map) {
-        this.map = map;
-    }
+public class UserView extends SuperView {
 
     private static UserDao userDao = new UserDaoImpl();
     /**
      * 用户注册
      */
-    public static void register() {
+    public void register() {
         int row = 0;
         System.out.println("欢迎您的注册!");
         System.out.println("请输入用户名:");
@@ -43,9 +33,7 @@ public class UserView {
     /**
      * 用户登录
      */
-    public static void login(){
-        UserView userView = new UserView();
-        Map<String, Object> userAll = null;
+    public void login(){
         System.out.println("欢迎您的登录!");
         System.out.println("请输入用户名:");
         String name = getIn().next();
@@ -53,7 +41,6 @@ public class UserView {
         String password = getIn().next();
         userAll = userDao.login(name, password);
         if (userAll!=null&&userAll.size()>0) {
-            userView.setMap(userAll);
             user();
         }else {
             System.out.println("用户可能不存在!");
@@ -64,7 +51,7 @@ public class UserView {
     /**
      * 登录失败
      */
-    public static void loginfault(){
+    public void loginfault(){
         System.out.println("登录失败!");
         System.out.println("是否重新登录?\n(1.重新登录\t2.返回主菜单)");
         int nextInt = getIn().nextInt();
@@ -86,7 +73,7 @@ public class UserView {
      */
     private static void user(){
         AccountView accountView = new AccountView();
-        String[] a = {"1.添加账目信息","2.修改账目信息","3.查询账目信息","4.删除账目信息"};
+        String[] a = {"1.添加账目信息","2.修改账目信息","3.查询账目信息","4.删除账目信息","5.退出"};
         for (int i = 0 ;i<a.length;i++){
             System.out.print(a[i]+"\t");
         }
@@ -95,16 +82,38 @@ public class UserView {
         int nextInt = getIn().nextInt();
         switch (nextInt){
             case 1:
-                accountView.addAccountMenu();
+                accountView.addAccountMenu();back();
                 break;
             case 2:
+                accountView.updateAccountMenu();back();
                 break;
             case 3:
+                accountView.selectAccountMenu();back();
                 break;
             case 4:
+                accountView.deleteAccountMenu();back();
+                break;
+            case 5:
+                App.confirm();
                 break;
             default:
                 System.out.println("输入错误!");menu();
+                break;
+        }
+    }
+
+    public static void back(){
+        System.out.println("是否返回主菜单?(1.返回主菜单\t2.退出)");
+        int nextInt = getIn().nextInt();
+        switch (nextInt){
+            case 1:
+                user();
+                break;
+            case 2:
+                App.confirm();
+                break;
+            default:
+                back();
                 break;
         }
     }

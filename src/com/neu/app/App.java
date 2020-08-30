@@ -31,7 +31,7 @@ public class App {
     }
 
     public static void confirm(){
-        System.out.println("是否返回主菜单?(1.返回主菜单\t2.退出)");
+        System.out.println("是否返回登录界面?(1.返回登录界面\t2.退出)");
         int nextInt = getIn().nextInt();
         switch (nextInt){
             case 1:
