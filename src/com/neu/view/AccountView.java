@@ -187,12 +187,13 @@ public class AccountView extends SuperView {
         System.out.println("请输入商品编号:");
         String id = getIn().next();
         goodsById = accountDao.findGoodsById(id, user_id);
-        if (goodsById.size()>0){
-            System.out.println("商品编号:"+goodsById.get("goods_id").toString()+"\t"+"商品名称:"+goodsById.get("goods_name").toString()+"\t"+
-                    "商品数量:"+goodsById.get("goods_count").toString()+"\t"+"商品单价:"+goodsById.get("goods_price").toString()+"\t"+
-                    "商品购买日期:"+goodsById.get("goods_date").toString()+"\t"+"商品总价:"+goodsById.get("goods_gross").toString());
+        if(goodsById.size()>0){
+                System.out.println("商品编号:"+goodsById.get("goods_id").toString()+"\t"+"商品名称:"+goodsById.get("goods_name").toString()+"\t"+
+                        "商品数量:"+goodsById.get("goods_count").toString()+"\t"+"商品单价:"+goodsById.get("goods_price").toString()+"\t"+
+                        "商品购买日期:"+goodsById.get("goods_date").toString()+"\t"+"商品总价:"+goodsById.get("goods_gross").toString());
+
         }else {
-            System.out.println("未查询到编号为"+id+"的商品:");
+            System.out.println("goodsById==null");
         }
     }
 
@@ -395,7 +396,7 @@ public class AccountView extends SuperView {
         String id = getIn().next();
         String user_id = userAll.get("user_id").toString();
         Map<String, Object> goodsById = accountDao.findGoodsById(id,user_id);
-        if (goodsById.size()>0){
+        if (goodsById!=null){
             int i = accountDao.deleteAccountById(id, user_id);
             if (i>0){
                 System.out.println("删除成功!");
